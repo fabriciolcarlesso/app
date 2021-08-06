@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
     app:
-        image: .
+        image: fabriciolcarlesso/laravel-docker
         working_dir: /var/www
         ports: 
           - 80:8000
