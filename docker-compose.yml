@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+    app:
+        image: fabriciolcarlesso/laravel-docker
+        working_dir: /var/www
+        ports: 
+          - 80:8000
+        volumes:
+          - ./code/:/var/www
