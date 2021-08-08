@@ -1,10 +1,36 @@
 version: '3.4'
 
 services:
-    app:
-        image: fabriciolcarlesso/laravel-docker
-        working_dir: /var/www
-        ports: 
-          - 80:8000
-        volumes:
-          - ./application/:/var/www
+  app:
+    container_name: application
+    image: fabriciolcarlesso/laravel-docker
+    working_dir: /var/www
+    ports: 
+      - 80:8000
+    networks:
+      - backend
+      - frontend
+    volumes:
+      - ./application/:/var/www
+    depends_on:
+      - database
+
+  database:
+    container_name: database
+    image: 'mysql'
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'application'
+      MYSQL_DATABASE: 'application'
+      MYSQL_USER: 'application'
+      MYSQL_PASSWORD: 'application'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - './database/:/var/lib/mysql'
+    networks:
+      - backend
+
+networks:
+    backend:
+    frontend:     
