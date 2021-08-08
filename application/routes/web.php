@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DevelopersController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,11 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('/developers', function () {
-    return view('developers');
-});
+Route::get('developers',[DevelopersController::class, 'developers'])->name('developers.developers');
+Route::get('developers/get/{id}', [DevelopersController::class, 'get'])->name('developer.get');
+Route::post('developers/create', [DevelopersController::class, 'create'])->name('developer.create');
+Route::put('developer/{id}', [DevelopersController::class, 'update'])->name('developer.update');
 
+Route::get('developer/delete/{id}', [DevelopersController::class,'delete'])->name('developer.delete');
