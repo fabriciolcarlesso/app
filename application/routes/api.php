@@ -22,8 +22,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware(['api.authorization'])->group(function () {
     Route::get('developers', [DevelopersApiController::class, 'developers']);
-    Route::get('developers/get/{id}', [DevelopersApiController::class, 'get']);
+
     Route::post('developers/create', [DevelopersApiController::class, 'create']);
+    Route::get('developers/read/{id}', [DevelopersApiController::class, 'read']);    
     Route::put('developers/update/{id}', [DevelopersApiController::class, 'update']);
     Route::delete('developers/delete/{id}', [DevelopersApiController::class,'delete']);
 });

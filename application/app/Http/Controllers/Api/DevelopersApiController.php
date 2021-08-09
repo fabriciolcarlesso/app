@@ -15,7 +15,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator as Validator;
 
 class DevelopersApiController extends Controller
-{
+{    
+    public function developers() 
+    {
+        $developers = Developers::paginate(5);
+
+        return DevelopersResource::collection(
+            $developers
+        );
+    }
+
     public function create(Request $request) 
     {
         try {            
@@ -56,31 +65,7 @@ class DevelopersApiController extends Controller
         }
     }
 
-    public function delete($id) 
-    {
-        try {
-            DB::beginTransaction();
-
-            Developers::select()
-                ->where('id', $id)
-                ->delete();
-
-            DB::commit();
-
-            return response()->json([
-                "message" => "deleted with success"
-            ], 204);
-    
-        } catch (\Throwable $th) {
-            DB::rollback();
-
-            return response()->json([
-                "message" => $th->getMessage()
-            ], 400);
-        }   
-    }
-    
-    public function get($id)
+    public function read($id)
     {
         $developer = Developers::findOrFail($id);
 
@@ -88,16 +73,7 @@ class DevelopersApiController extends Controller
             $developer
         );
     }
-    
-    public function developers() 
-    {
-        $developers = Developers::paginate(5);
 
-        return DevelopersResource::collection(
-            $developers
-        );
-    }
-    
     public function update(Request $request) 
     {
         try {            
@@ -138,5 +114,29 @@ class DevelopersApiController extends Controller
                 "message" => $th->getMessage()
             ], 400);
         }
+    }
+
+    public function delete($id) 
+    {
+        try {
+            DB::beginTransaction();
+
+            Developers::select()
+                ->where('id', $id)
+                ->delete();
+
+            DB::commit();
+
+            return response()->json([
+                "message" => "deleted with success"
+            ], 204);
+    
+        } catch (\Throwable $th) {
+            DB::rollback();
+
+            return response()->json([
+                "message" => $th->getMessage()
+            ], 400);
+        }   
     }
 }
