@@ -5,11 +5,10 @@
 - VS Code;
 - Terminal WSL
 
-### Instalação
+### Instalação da aplicação
 - Clonar o projeto e executar o comando **$ ./_start.sh**
-
-### Aplicação
-- Acessar a URL da aplicação **http://localhost/developers**
+- Após executar o comando acima o container e a aplicação estarão rodando
+- Acessar a aplicação pela URL **http://localhost/developers**
 
 ### Testes
 - Executar o comando **$ docker-compose exec app php artisan test**
