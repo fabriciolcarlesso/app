@@ -18,7 +18,7 @@ class DevelopersApiController extends Controller
 {    
     public function developers() 
     {
-        $developers = Developers::paginate(5);
+        $developers = Developers::paginate(10);
 
         return DevelopersResource::collection(
             $developers

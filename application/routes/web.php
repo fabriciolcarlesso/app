@@ -17,8 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('developers',[DevelopersController::class, 'developers'])->name('developers.developers');
-Route::get('developers/get/{id}', [DevelopersController::class, 'get'])->name('developer.get');
-Route::post('developers/create', [DevelopersController::class, 'create'])->name('developer.create');
-Route::put('developer/{id}', [DevelopersController::class, 'update'])->name('developer.update');
-
-Route::get('developer/delete/{id}', [DevelopersController::class,'delete'])->name('developer.delete');
+Route::post('developers/create', [DevelopersController::class, 'create'])->name('developers.create');
+Route::get('developers/read/{id}', [DevelopersController::class, 'read'])->name('developers.read');
+Route::put('developers/update/{id}', [DevelopersController::class, 'update'])->name('developers.update');
+Route::get('developer/delete/{id}', [DevelopersController::class,'delete'])->name('developers.delete');

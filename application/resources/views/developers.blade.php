@@ -14,17 +14,21 @@
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
         crossorigin="anonymous">
 
-    <title>Developer's app</title>
+    <title>
+        Developer's app
+    </title>
+
     <style>
-        body {
+        .font {
             font-family: 'Nunito', sans-serif;
+            font-size: 0.9em;
         }
 
         h1 {
             font: 500 34px "Fjalla One","Verdana, Arial";
             color: #B02A37;
         }
-        span {
+        .fields {
             float: left;
             white-space: nowrap;
             width: 99%;
@@ -34,7 +38,7 @@
     </style>
     
   </head>
-  <body class="bg-light">
+  <body class="bg-light font">
     <div class="modal-backdrop" style="opacity:0.8"></div>
     
     <div class="mx-5 p-5">
@@ -48,7 +52,7 @@
 
         <div class="container bg-white p-4 border border-light rounded">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4 pr-4">
                     
                     <div class="row pb-0 mb-0">
                         <div class="col-md-12 pb-0 mb-0 pr-0 mr-0">
@@ -58,10 +62,19 @@
                         </div>
                     </div>
 
+                    @if($errors->any())
+                        <div class="row pb-0 mb-0 pl-3">
+                            <div class="col-md-12 alert alert-warning alert-dismissible fade show" role="alert">
+                                {{$errors->first()}}
+                                <button type="button" class="close" data-dismiss="alert">x</button>
+                            </div>
+                        </div>
+                    @endif
+
                     @if (empty(old('id')))
-                        <form method="post" id="formDeveloper" action="{{ route('developer.create') }}">
+                        <form method="post" id="formDeveloper" action="{{ route('developers.create') }}">
                     @else
-                        <form method="post" id="formDeveloper" action="{{ route('developer.update', old('id')) }}">
+                        <form method="post" id="formDeveloper" action="{{ route('developers.update', old('id')) }}">
                             {{ method_field('PUT') }}
                     @endif
                         {{ csrf_field() }}
@@ -77,7 +90,7 @@
                             <div class="col-md-7 pb-0 mb-0 px-0 form-group">
                                 <input 
                                     type="text" 
-                                    class="form-control text-secondary" 
+                                    class="form-control text-secondary font" 
                                     name="name" 
                                     value="{{ old('name') }}" >
                             </div>
@@ -90,7 +103,7 @@
                                 </label>
                             </div>
                             <div class="col-md-2 pb-0 mb-0 px-0 form-group">
-                                <select class="form-control text-secondary" name="sex">
+                                <select class="form-control text-secondary font" name="sex">
                                     <option>
                                         --
                                     </option>
@@ -117,7 +130,7 @@
                             <div class="col-md-2 pb-0 mb-0 px-0 form-group">
                                 <input 
                                     type="text" 
-                                    class="form-control birthdate" 
+                                    class="form-control birthdate font" 
                                     name="birthdateDay" 
                                     id="birthdateDay"
                                     value="{{ old('birthdateDay') }}" 
@@ -126,7 +139,7 @@
                             <div class="col-md-2 pb-0 pl-1 mb-0 px-0 form-group">
                                 <input 
                                     type="text" 
-                                    class="form-control birthdate" 
+                                    class="form-control birthdate font" 
                                     name="birthdateMonth" 
                                     id="birthdateMonth"
                                     value="{{ old('birthdateMonth') }}" 
@@ -135,7 +148,7 @@
                             <div class="col-md-3 pl-1 pb-0 mb-0 px-0 form-group">
                                 <input 
                                     type="text" 
-                                    class="form-control birthdate" 
+                                    class="form-control birthdate font" 
                                     name="birthdateYear" 
                                     id="birthdateYear"
                                     value="{{ old('birthdateYear') }}" 
@@ -152,7 +165,7 @@
                             <div class="col-md-2 pb-0 mb-0 px-0 form-group">
                                 <input 
                                     type="text" 
-                                    class="form-control" 
+                                    class="form-control font" 
                                     name="age"
                                     id="age" 
                                     value="{{ old('age') }}" 
@@ -169,7 +182,7 @@
                             <div class="col-md-7 pb-0 mb-0 px-0 form-group">
                                 <input 
                                     type="text" 
-                                    class="form-control" 
+                                    class="form-control font" 
                                     name="hobby" 
                                     value="{{ old('hobby') }}">
                             </div>
@@ -180,14 +193,14 @@
                                 <button 
                                     type="submit" 
                                     id="btn-create"
-                                    class="btn btn-primary float-right ml-2">
+                                    class="btn btn-primary float-right ml-2 font">
                                     Salvar
                                 </button>
 
                                 <button 
                                     type="button" 
                                     id="btn-cancel"
-                                    class="btn btn-danger float-right">
+                                    class="btn btn-danger float-right font">
                                     Cancelar
                                 </button>
                             </div>
@@ -203,7 +216,8 @@
                         </div>
                     </div>
                     <div class="row py-2 mr-1 pl-0 ml-1 pb-1 mb-1">
-                        <div class="col-md-4 ml-0 pl-0">Nome completo</div>
+                        <div class="col-md-1 text-center">ID</div>
+                        <div class="col-md-3 text-left ml-0 pl-0">Nome completo</div>
                         <div class="col-md-1 text-center">Sexo</div>
                         <div class="col-md-2 text-center">Nascimento</div>
                         <div class="col-md-1 text-center">Idade</div>
@@ -213,9 +227,14 @@
                     </div>
                     @if (isset($developers) && $developers->count() > 0)
                         @foreach ($developers as $developer)
-                            <div class="row text-secondary py-2 mr-1 pl-0 ml-1 pb-1 mb-1 border-bottom">
-                                <div class="col-md-4 ml-0 pl-0">
-                                    <span class="align-middle fullname">
+                            <div class="row  text-secondary py-2 mr-1 pl-0 ml-1 pb-1 mb-1 border-bottom">
+                                <div class="col-md-1 text-center">
+                                    <span class="align-middle">
+                                        {{ $developer->id }}
+                                    </span>
+                                </div>
+                                <div class="col-md-3 ml-0 pl-0">
+                                    <span class="align-middle fullname fields">
                                         {{ $developer->name }}
                                     </span>
                                 </div>
@@ -235,23 +254,35 @@
                                     </span>
                                 </div>
                                 <div class="col-md-3">
-                                    <span class="align-middle">
+                                    <span class="align-middle fields">
                                         {{ $developer->hobby }}
                                     </span>
                                 </div>
                                 <div class="col-md-1 mx-0 px-0 text-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#B02A37" class="bi bi-x-octagon-fill" viewBox="0 0 16 16">
-                                        <path d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zm-6.106 4.5L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"/>
-                                    </svg>
+                                    <a href="{{ route('developers.read', $developer->id) }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mr-2 bi bi-gear-fill" viewBox="0 0 16 16">
+                                            <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+                                        </svg>
+                                    </a>
+                                    <a href="{{ route('developers.delete', $developer->id) }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#B02A37" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+                                        </svg>
+                                    </a>
                                 </div>
                             </div>
                         @endforeach
+
+                        <div class="row py-3 mr-1 pr-0 mr-0 pb-1 mb-1 float-right">
+                            <div class="col-md-12 pr-1 ml-0">
+                                {{ $developers->links() }}
+                            </div>
+                        </div>
                     @endif
                 </div>
             </div>
         </div>
     </div>
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" 
@@ -281,7 +312,7 @@
 
             $('.modal-backdrop').fadeOut("slow");
 
-            $(".btn").click(function(){
+            $(".btn, a").click(function(){
                 $(this).val('Salvando');
                 $('.modal-backdrop').fadeIn("fast");
             });
@@ -307,19 +338,10 @@
             });
 
             if ($('#birthdate').val()) {
-                var birthdate = new Date($('#birthdate').val());
-
-                if (birthdate.getDate() < 10) {
-                    $('#birthdateDay').val("0" + birthdate.getDate());
-
-                }
-                                
-                if ((birthdate.getMonth()+1) < 10) {
-                    $('#birthdateMonth').val("0" + (birthdate.getMonth()+1));
-
-                }
-
-                $('#birthdateYear').val(birthdate.getFullYear());
+                var date = $('#birthdate').val().split("-");
+                $('#birthdateYear').val(date[0]);
+                $('#birthdateMonth').val(date[1]);
+                $('#birthdateDay').val(date[2]);
             }
         });
     </script>

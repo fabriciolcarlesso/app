@@ -20,11 +20,27 @@ class DevelopersController extends Controller
         if ($developers->status() == 400) {
             return Redirect::back()
                 ->withErrors([
-                    "Preencha corretamente todos os campos."
+                    "Preencha corretamente o formulário."
                 ]);
         };
             
         return Redirect::back();
+    }
+
+    public function read($id)
+    {
+        $developer = new DevelopersApi;
+        $developer = $developer->read($id);
+
+        return back()
+            ->withInput([
+                'id' => $developer->id,
+                'name' => $developer->name,
+                'sex' => $developer->sex,
+                'birthdate' => $developer->birthdate,
+                'age' => $developer->age,
+                'hobby' => $developer->hobby,
+            ]);
     }
 
     public function delete($id) 
@@ -42,21 +58,7 @@ class DevelopersController extends Controller
         return Redirect::back();
     }
 
-    public function get($id)
-    {
-        $developer = new DevelopersApi;
-        $developer = $developer->get($id);
-
-        return back()
-            ->withInput([
-                'id' => $developer->id,
-                'name' => $developer->name,
-                'sex' => $developer->sex,
-                'birthdate' => $developer->birthdate,
-                'age' => $developer->age,
-                'hobby' => $developer->hobby,
-            ]);
-    }
+    
 
     public function developers() 
     {
