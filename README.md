@@ -25,4 +25,5 @@
   -  List developers
 
 ### Extras
-- Para subir os containers execute o comando **$ ./_up.sh**
+- Uma vez feita a instalação não é mais necessário executar **$ ./_start.sh** 
+- Para subir os containers execute somente o comando **$ ./_up.sh**
