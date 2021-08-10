@@ -67,11 +67,24 @@ class DevelopersApiController extends Controller
 
     public function read($id)
     {
-        $developer = Developers::findOrFail($id);
+        try {
+            $developer = Developers::select()
+                ->where('id', $id)
+                ->first();
 
-        return new DevelopersResource(
-            $developer
-        );
+            if (empty($developer)) {
+                throw new Exception("invalid developer's id", 1);
+            }
+
+            return new DevelopersResource($developer);
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+
+            return response()->json([
+                "message" => $th->getMessage()
+            ], 404);
+        }
     }
 
     public function update(Request $request) 
@@ -91,15 +104,21 @@ class DevelopersApiController extends Controller
 
             DB::beginTransaction();
 
-            Developers::select()
+            $developer = Developers::select()
                 ->where('id', $request->id)
-                ->update([
-                    'name' => $request->input('name'),
-                    'sex' => $request->input('sex'),
-                    'birthdate' => $request->input('birthdate'),
-                    'age' => $request->input('age'),
-                    'hobby' => $request->input('hobby')
-                ]);
+                ->first();
+
+            if (empty($developer)) {
+                throw new Exception("invalid developer's id", 1);
+            }
+
+            $developer->update([
+                'name' => $request->input('name'),
+                'sex' => $request->input('sex'),
+                'birthdate' => $request->input('birthdate'),
+                'age' => $request->input('age'),
+                'hobby' => $request->input('hobby')
+            ]);
 
             DB::commit();
 

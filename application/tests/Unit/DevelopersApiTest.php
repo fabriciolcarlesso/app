@@ -83,6 +83,13 @@ class DevelopersApiTest extends TestCase
         $this->withHeaders([
             'authorization' => config('app.authorization'),
         ])->putJson(
+            config('app.url').'/api/developers/update/0',
+            $updatedData
+        )->assertStatus(400);
+
+        $this->withHeaders([
+            'authorization' => config('app.authorization'),
+        ])->putJson(
             config('app.url').'/api/developers/update/'.$developer->id,
             []
         )->assertStatus(400);
